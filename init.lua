@@ -1,267 +1,112 @@
-minetest.register_node("usesdirt:dirt_brick", {
-	tiles = {"usesdirt_dirt_brick.png"},
-	description = "Dirt Brick",
-	groups = {snappy=2,choppy=1,oddly_breakable_by_hand=2},
-})
-minetest.register_craft({
-	output = '"usesdirt:dirt_brick" 6',
-	recipe = {
-		{'default:dirt', 'default:dirt', 'default:dirt'},
-		{'default:dirt', 'default:dirt', 'default:dirt'},
-		{'default:dirt', 'default:dirt', 'default:dirt'},
-	}
-})
---Ladder
-minetest.register_node("usesdirt:dirt_ladder", {
-	description = "Ladder",
-	drawtype = "signlike",
-	tiles ={"usesdirt_dirt_ladder.png"},
-	inventory_image = "usesdirt_dirt_ladder.png",
-	wield_image = "usesdirt_dirt_ladder.png",
-	paramtype = "light",
-	paramtype2 = "wallmounted",
-	is_ground_content = true,
-	walkable = false,
-	climbable = true,
-	selection_box = {
-		type = "wallmounted",
-		--wall_top = = <default>
-		--wall_bottom = = <default>
-		--wall_side = = <default>
-	},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3},
-	legacy_wallmounted = true,
-})
-minetest.register_craft({
-	output = 'usesdirt:dirt_ladder 3',
-	recipe = {
-		{'usesdirt:dirt_brick', '', 'usesdirt:dirt_brick'},
-		{'usesdirt:dirt_brick', 'usesdirt:dirt_brick','usesdirt:dirt_brick'},
-		{'usesdirt:dirt_brick','','usesdirt:dirt_brick'},
-	}
-})
---Fence
-minetest.register_node("usesdirt:dirt_fence", {
-	description = "Dirt Fence",
-	drawtype = "fencelike",
-	tiles ={"usesdirt_dirt_brick.png"},
-	inventory_image = "usesdirt_dirt_fence.png",
-	wield_image = "usesdirt_dirt_fence.png",
-	paramtype = "light",
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
-	},
-	groups = {snappy=2,choppy=1,oddly_breakable_by_hand=3},
-})
-minetest.register_craft({
-	output = 'usesdirt:dirt_fence 2',
-	recipe = {
-		{'usesdirt:dirt_brick', 'usesdirt:dirt_brick', 'usesdirt:dirt_brick'},
-		{'usesdirt:dirt_brick', 'usesdirt:dirt_brick', 'usesdirt:dirt_brick'},
-	}
-})
----------------------------------------------------------------------------------------------------
-minetest.register_node("usesdirt:dirt_cobble_stone", {
-	tiles = {"usesdirt_dirt_cobble_stone.png"},
-	description = "Dirt Cobble Stone",
-	is_ground_content = true,
-	groups = {cracky=3, stone=2},
-})
-minetest.register_craft({
-	output = '"usesdirt:dirt_cobble_stone" 6',
-	recipe = {
-		{'usesdirt:dirt_brick', 'usesdirt:dirt_brick', 'usesdirt:dirt_brick'},
-		{'usesdirt:dirt_brick', 'usesdirt:dirt_brick', 'usesdirt:dirt_brick'},
-		{'usesdirt:dirt_brick', 'usesdirt:dirt_brick', 'usesdirt:dirt_brick'},
-	}
-})
---Ladder
-minetest.register_node("usesdirt:dirt_cobble_stone_ladder", {
-	description = "Ladder",
-	drawtype = "signlike",
-	tiles ={"usesdirt_dirt_cobble_stone_ladder.png"},
-	inventory_image = "usesdirt_dirt_cobble_stone_ladder.png",
-	wield_image = "usesdirt_dirt_cobble_stone_ladder.png",
-	paramtype = "light",
-	paramtype2 = "wallmounted",
-	is_ground_content = true,
-	walkable = false,
-	climbable = true,
-	selection_box = {
-		type = "wallmounted",
-		--wall_top = = <default>
-		--wall_bottom = = <default>
-		--wall_side = = <default>
-	},
-	groups = {cracky=3, stone=2},
-	legacy_wallmounted = true,
-})
-minetest.register_craft({
-	output = 'usesdirt:dirt_cobble_stone_ladder 3',
-	recipe = {
-		{'usesdirt:dirt_cobble_stone', '', 'usesdirt:dirt_cobble_stone'},
-		{'usesdirt:dirt_cobble_stone', 'usesdirt:dirt_cobble_stone','usesdirt:dirt_cobble_stone'},
-		{'usesdirt:dirt_cobble_stone','','usesdirt:dirt_cobble_stone'},
-	}
-})
---Fence
-minetest.register_node("usesdirt:dirt_cobble_stone_fence", {
-	description = "Dirt Cobble Stone Fence",
-	drawtype = "fencelike",
-	tiles ={"usesdirt_dirt_cobble_stone.png"},
-	inventory_image = "usesdirt_dirt_cobble_stone_fence.png",
-	wield_image = "usesdirt_dirt_cobble_stone_fence.png",
-	paramtype = "light",
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
-	},
-	groups = {cracky=3, stone=2},
-})
-minetest.register_craft({
-	output = 'usesdirt:dirt_cobble_stone_fence 2',
-	recipe = {
-		{'usesdirt:dirt_cobble_stone', 'usesdirt:dirt_cobble_stone', 'usesdirt:dirt_cobble_stone'},
-		{'usesdirt:dirt_cobble_stone', 'usesdirt:dirt_cobble_stone', 'usesdirt:dirt_cobble_stone'},
-	}
-})
+minetest.register_alias("usesdirt:dirt_ladder", "usesdirt:dirt_brick_ladder")
+minetest.register_alias("usesdirt:dirt_fence", "usesdirt:dirt_brick_fence")
+
+
+local dirtnodes = {
+	{"brick", "Brick", {snappy=2,choppy=1,oddly_breakable_by_hand=3}, "default:dirt"},
+	{"cobble_stone", "Cobble Stone", {cracky=3, stone=2}, 'usesdirt:dirt_brick'},
+	{"stone", "Stone", {cracky=3, stone=2}, "usesdirt:dirt_cobble_stone", true},
+--	{"dried_dirt", "Dried", {cracky=3, stone=2}}
+}
+
+
+for _,dirtnode in ipairs(dirtnodes) do
+	local name = dirtnode[1]
+	local desc = "Dirt "..dirtnode[2]
+	local groups = dirtnode[3]
+	local craftinput = dirtnode[4]
+
+	local nodename = "usesdirt:dirt_"..name
+	local texture = "usesdirt_"..name..".png"
+	minetest.register_node(nodename, {
+		tiles = {texture},
+		description = desc,
+		groups = groups,
+	})
+
+	local lnodename = "usesdirt:dirt_"..name.."_ladder"
+	local ltexture = "usesdirt_ladder_"..name..".png"
+	minetest.register_node(lnodename, {
+		description = desc.." Ladder",
+		drawtype = "signlike",
+		tiles ={ltexture},
+		inventory_image = ltexture,
+		wield_image = ltexture,
+		paramtype = "light",
+		paramtype2 = "wallmounted",
+		walkable = false,
+		climbable = true,
+		selection_box = {
+			type = "wallmounted",
+		},
+		groups = groups,
+		legacy_wallmounted = true,
+	})
+
+	local fnodename = "usesdirt:dirt_"..name.."_fence"
+	local ftexture = "usesdirt_fence_"..name..".png"
+	minetest.register_node(fnodename, {
+		description = desc.." Fence",
+		drawtype = "fencelike",
+		tiles ={texture},
+		inventory_image = ftexture,
+		wield_image = ftexture,
+		paramtype = "light",
+		selection_box = {
+			type = "fixed",
+			fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+		},
+		groups = groups,
+	})
+
+	if dirtnode[5] then
+		minetest.register_craft({
+			type = "cooking",
+			output = nodename,
+			recipe = craftinput,
+		})
+	else
+		minetest.register_craft({
+			output = nodename..' 6',
+			recipe = {
+				{craftinput, craftinput, craftinput},
+				{craftinput, craftinput, craftinput},
+				{craftinput, craftinput, craftinput},
+			}
+		})
+	end
+
+	minetest.register_craft({
+		output = lnodename..' 3',
+		recipe = {
+			{nodename, '', nodename},
+			{nodename, nodename, nodename},
+			{nodename, '', nodename},
+		}
+	})
+
+	minetest.register_craft({
+		output = fnodename..' 2',
+		recipe = {
+			{nodename, nodename, nodename},
+			{nodename, nodename, nodename},
+		}
+	})
+end
 ----------------------------------------------------------------------------------------------------
-minetest.register_node("usesdirt:dirt_stone", {
-	tiles = {"usesdirt_dirt_stone.png"},
-	description = "Dirt Stone",
-	is_ground_content = true,
-	groups = {cracky=3, stone=2},
-})
---Ladder
-minetest.register_node("usesdirt:dirt_stone_ladder", {
-	description = "Ladder",
-	drawtype = "signlike",
-	tiles ={"usesdirt_dirt_stone_ladder.png"},
-	inventory_image = "usesdirt_dirt_stone_ladder.png",
-	wield_image = "usesdirt_dirt_stone_ladder.png",
-	paramtype = "light",
-	paramtype2 = "wallmounted",
-	is_ground_content = true,
-	walkable = false,
-	climbable = true,
-	selection_box = {
-		type = "wallmounted",
-		--wall_top = = <default>
-		--wall_bottom = = <default>
-		--wall_side = = <default>
-	},
-	groups = {cracky=3, stone=2},
-	legacy_wallmounted = true,
-})
-minetest.register_craft({
-	output = 'usesdirt:dirt_stone_ladder 3',
-	recipe = {
-		{'usesdirt:dirt_stone', '', 'usesdirt:dirt_stone'},
-		{'usesdirt:dirt_stone', 'usesdirt:dirt_stone','usesdirt:dirt_stone'},
-		{'usesdirt:dirt_stone','','usesdirt:dirt_stone'},
-	}
-})
---Fence
-minetest.register_node("usesdirt:dirt_stone_fence", {
-	description = "Dirt Stone Fence",
-	drawtype = "fencelike",
-	tiles ={"usesdirt_dirt_stone.png"},
-	inventory_image = "usesdirt_dirt_stone_fence.png",
-	wield_image = "usesdirt_dirt_stone_fence.png",
-	paramtype = "light",
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
-	},
-	groups = {cracky=3, stone=2},
-})
-minetest.register_craft({
-	output = 'usesdirt:dirt_stone_fence 2',
-	recipe = {
-		{'usesdirt:dirt_stone', 'usesdirt:dirt_stone', 'usesdirt:dirt_stone'},
-		{'usesdirt:dirt_stone', 'usesdirt:dirt_stone', 'usesdirt:dirt_stone'},
-	}
-})
-minetest.register_craft({
-	type = "cooking",
-	output = "usesdirt:dirt_stone",
-	recipe = "usesdirt:dirt_cobble_stone",
-})
 --Furnace
-default.furnace_inactive_formspec =
-	"size[8,9]"..
-	"image[2,2;1,1;default_furnace_fire_bg.png]"..
-	"list[current_name;fuel;2,3;1,1;]"..
-	"list[current_name;src;2,1;1,1;]"..
-	"list[current_name;dst;5,1;2,2;]"..
-	"list[current_player;main;0,5;8,4;]"
+local tmp = minetest.registered_nodes["default:furnace"]
+tmp.description = "Dirt "..tmp.description
+tmp.tiles = {"usesdirt_furnace_top.png", "usesdirt_furnace_bottom.png", "usesdirt_furnace_side.png",
+	"usesdirt_furnace_side.png", "usesdirt_furnace_side.png", "usesdirt_furnace_front.png"}
+minetest.register_node("usesdirt:dirt_furnace", tmp)
 
-minetest.register_node("usesdirt:dirt_furnace", {
-	description = "Furnace",
-	tiles = {"usesdirt_dirt_furnace_top.png", "usesdirt_dirt_furnace_bottom.png", "usesdirt_dirt_furnace_side.png",
-		"usesdirt_dirt_furnace_side.png", "usesdirt_dirt_furnace_side.png", "usesdirt_dirt_furnace_front.png"},
-	paramtype2 = "facedir",
-	groups = {cracky=2},
-	legacy_facedir_simple = true,
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec", default.furnace_inactive_formspec)
-		meta:set_string("infotext", "Furnace")
-		local inv = meta:get_inventory()
-		inv:set_size("fuel", 1)
-		inv:set_size("src", 1)
-		inv:set_size("dst", 4)
-	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		if not inv:is_empty("fuel") then
-			return false
-		elseif not inv:is_empty("dst") then
-			return false
-		elseif not inv:is_empty("src") then
-			return false
-		end
-		return true
-	end,
-})
-
-minetest.register_node("usesdirt:dirt_furnace_active", {
-	description = "Furnace",
-	tiles = {"usesdirt_dirt_furnace_top.png", "usesdirt_dirt_furnace_bottom.png", "usesdirt_dirt_furnace_side.png",
-		"usesdirt_dirt_furnace_side.png", "usesdirt_dirt_furnace_side.png", "usesdirt_dirt_furnace_front_active.png"},
-	paramtype2 = "facedir",
-	light_source = 8,
-	drop = "usesdirt:dirt_furnace",
-	groups = {cracky=2, not_in_creative_inventory=1},
-	legacy_facedir_simple = true,
-	sounds = default.node_sound_stone_defaults(),
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec", default.furnace_inactive_formspec)
-		meta:set_string("infotext", "Furnace");
-		local inv = meta:get_inventory()
-		inv:set_size("fuel", 1)
-		inv:set_size("src", 1)
-		inv:set_size("dst", 4)
-	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		if not inv:is_empty("fuel") then
-			return false
-		elseif not inv:is_empty("dst") then
-			return false
-		elseif not inv:is_empty("src") then
-			return false
-		end
-		return true
-	end,
-})
+local tmp = minetest.registered_nodes["default:furnace_active"]
+tmp.description = "Dirt "..tmp.description
+tmp.tiles = {"usesdirt_furnace_top.png", "usesdirt_furnace_bottom.png", "usesdirt_furnace_side.png",
+	"usesdirt_furnace_side.png", "usesdirt_furnace_side.png", "usesdirt_furnace_front_active.png"}
+tmp.drop = "usesdirt:dirt_furnace"
+minetest.register_node("usesdirt:dirt_furnace_active", tmp)
 
 function hacky_swap_node(pos,name)
 	local node = minetest.env:get_node(pos)
@@ -279,10 +124,10 @@ end
 
 minetest.register_abm({
 	nodenames = {"usesdirt:dirt_furnace","usesdirt:dirt_furnace_active"},
-	interval = 1.0,
+	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		for i, name in ipairs({
 				"fuel_totaltime",
 				"fuel_time",
@@ -298,9 +143,10 @@ minetest.register_abm({
 
 		local srclist = inv:get_list("src")
 		local cooked = nil
+		local aftercooked
 		
 		if srclist then
-			cooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
+			cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 		end
 		
 		local was_active = false
@@ -315,9 +161,7 @@ minetest.register_abm({
 					-- Put result in "dst" list
 					inv:add_item("dst", cooked.item)
 					-- take stuff from "src" list
-					srcstack = inv:get_stack("src", 1)
-					srcstack:take_item()
-					inv:set_stack("src", 1, srcstack)
+					inv:set_stack("src", 1, aftercooked.items[1])
 				else
 					print("Could not insert '"..cooked.item:to_string().."'")
 				end
@@ -330,18 +174,12 @@ minetest.register_abm({
 					meta:get_float("fuel_totaltime") * 100)
 			meta:set_string("infotext","Furnace active: "..percent.."%")
 			hacky_swap_node(pos,"usesdirt:dirt_furnace_active")
-			meta:set_string("formspec",
-				"size[8,9]"..
-				"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
-						(100-percent)..":default_furnace_fire_fg.png]"..
-				"list[current_name;fuel;2,3;1,1;]"..
-				"list[current_name;src;2,1;1,1;]"..
-				"list[current_name;dst;5,1;2,2;]"..
-				"list[current_player;main;0,5;8,4;]")
+			meta:set_string("formspec",default.get_furnace_active_formspec(pos, percent))
 			return
 		end
 
 		local fuel = nil
+		local afterfuel
 		local cooked = nil
 		local fuellist = inv:get_list("fuel")
 		local srclist = inv:get_list("src")
@@ -350,7 +188,7 @@ minetest.register_abm({
 			cooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 		end
 		if fuellist then
-			fuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
+			fuel, afterfuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
 		end
 
 		if fuel.time <= 0 then
@@ -372,11 +210,10 @@ minetest.register_abm({
 		meta:set_string("fuel_totaltime", fuel.time)
 		meta:set_string("fuel_time", 0)
 		
-		local stack = inv:get_stack("fuel", 1)
-		stack:take_item()
-		inv:set_stack("fuel", 1, stack)
+		inv:set_stack("fuel", 1, afterfuel.items[1])
 	end,
 })
+
 minetest.register_craft({
 	output = 'usesdirt:dirt_furnace',
 	recipe = {
@@ -386,204 +223,69 @@ minetest.register_craft({
 	}
 })
 --Tools
---axe
-minetest.register_tool("usesdirt:dirt_axe", {
-	description = "Dirt Axe",
-	inventory_image = "usesdirt_dirt_axe.png",
-	tool_capabilities = {
-		max_drop_level=0,
-		groupcaps={
-			choppy={times={[1]=3.00, [2]=1.00, [3]=0.60}, uses=20, maxlevel=1},
-			fleshy={times={[2]=1.30, [3]=0.70}, uses=20, maxlevel=1}
-		}
-	},
-})
+local dirttools_list = {
+	{"axe", "Axe"},
+	{"sword", "Sword"},
+	{"shovel", "Shovel"},
+	{"pick", "Pickaxe"},
+}
+
+for _,i in ipairs(dirttools_list) do
+	local tmp = minetest.registered_tools["default:"..i[1].."_stone"]
+	tmp.description = "Dirt "..i[2]
+	tmp.inventory_image = "usesdirt_dirt_"..i[1]..".png"
+	minetest.register_tool("usesdirt:dirt_"..i[1], tmp)
+end
+
+local a = 'usesdirt:dirt_stone'
+local b = 'default:stick'
 minetest.register_craft({
 	output = 'usesdirt:dirt_axe',
 	recipe = {
-		{'usesdirt:dirt_stone', 'usesdirt:dirt_stone'},
-		{'usesdirt:dirt_stone', 'default:stick'},
-		{'', 'default:stick'},
+		{a, a},
+		{a, b},
+		{'', b},
 	}
 })
---Sword
-minetest.register_tool("usesdirt:dirt_sword", {
-	description = "Dirt Sword",
-	inventory_image = "usesdirt_dirt_sword.png",
-	tool_capabilities = {
-		full_punch_interval = 1.0,
-		max_drop_level=0,
-		groupcaps={
-			fleshy={times={[2]=0.80, [3]=0.40}, uses=20, maxlevel=1},
-			snappy={times={[2]=0.80, [3]=0.40}, uses=20, maxlevel=1},
-			choppy={times={[3]=0.90}, uses=20, maxlevel=0}
-		}
-	}
-})
+
 minetest.register_craft({
 	output = 'usesdirt:dirt_sword',
 	recipe = {
-		{'usesdirt:dirt_stone'},
-		{'usesdirt:dirt_stone'},
-		{'default:stick'},
+		{a},
+		{a},
+		{b},
 	}
 })
 
---Shovel
-minetest.register_tool("usesdirt:dirt_shovel", {
-	description = "Dirt Shovel",
-	inventory_image = "usesdirt_dirt_shovel.png",
-	tool_capabilities = {
-		max_drop_level=0,
-		groupcaps={
-			crumbly={times={[1]=1.50, [2]=0.50, [3]=0.30}, uses=20, maxlevel=1}
-		}
-	},
-})
 minetest.register_craft({
 	output = 'usesdirt:dirt_shovel',
 	recipe = {
-		{'usesdirt:dirt_stone'},
-		{'default:stick'},
-		{'default:stick'},
+		{a},
+		{b},
+		{b},
 	}
 })
---Pickaxe
-minetest.register_tool("usesdirt:dirt_pick", {
-	description = "Dirt Pickaxe",
-	inventory_image = "usesdirt_dirt_pick.png",
-	tool_capabilities = {
-		max_drop_level=0,
-		groupcaps={
-			cracky={times={[1]=3.00, [2]=1.20, [3]=0.80}, uses=20, maxlevel=1}
-		}
-	},
-})
+
 minetest.register_craft({
 	output = 'usesdirt:dirt_pick',
 	recipe = {
-		{'usesdirt:dirt_stone', 'usesdirt:dirt_stone', 'usesdirt:dirt_stone'},
-		{'', 'default:stick', ''},
-		{'', 'default:stick', ''},
+		{a, a, a},
+		{'', b, ''},
+		{'', b, ''},
 	}
 })
 --Chest
-minetest.register_node("usesdirt:dirt_chest", {
-	description = "Dirt Chest",
-	tiles = {"usesdirt_dirt_chest.png"},
-	paramtype2 = "facedir",
-	groups = {cracky=3, stone=2},
-	legacy_facedir_simple = true,
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",
-				"size[8,9]"..
-				"list[current_name;main;0,0;8,4;]"..
-				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Chest")
-		local inv = meta:get_inventory()
-		inv:set_size("main", 8*4)
-	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		return inv:is_empty("main")
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff in chest at "..minetest.pos_to_string(pos))
-	end,
-    on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff to chest at "..minetest.pos_to_string(pos))
-	end,
-    on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" takes stuff from chest at "..minetest.pos_to_string(pos))
-	end,
-})
+local tmp = minetest.registered_nodes["default:chest"]
+tmp.description = "Dirt "..tmp.description
+tmp.tiles = {"usesdirt_chest.png"}
+tmp.groups = {cracky=3, stone=2}
+minetest.register_node("usesdirt:dirt_chest", tmp)
 
-local function has_locked_chest_privilege(meta, player)
-	if player:get_player_name() ~= meta:get_string("owner") then
-		return false
-	end
-	return true
-end
-
-minetest.register_node("usesdirt:dirt_locked_chest", {
-	description = "Dirt Locked Chest",
-	tiles = {"usesdirt_dirt_locked_chest.png"},
-	paramtype2 = "facedir",
-	groups = {cracky=3, stone=2},
-	legacy_facedir_simple = true,
-	after_place_node = function(pos, placer)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Locked Chest (owned by "..
-				meta:get_string("owner")..")")
-	end,
-	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
-		meta:set_string("formspec",
-				"size[8,9]"..
-				"list[current_name;main;0,0;8,4;]"..
-				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Locked Chest")
-		meta:set_string("owner", "")
-		local inv = meta:get_inventory()
-		inv:set_size("main", 8*4)
-	end,
-	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
-		local inv = meta:get_inventory()
-		return inv:is_empty("main")
-	end,
-	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return 0
-		end
-		return count
-	end,
-    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return 0
-		end
-		return stack:get_count()
-	end,
-    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return 0
-		end
-		return stack:get_count()
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-	end,
-    on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-	end,
-    on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name()..
-				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-	end,
-})
+local tmp = minetest.registered_nodes["default:chest_locked"]
+tmp.description = "Dirt "..tmp.description
+tmp.tiles = {"usesdirt_locked_chest.png"}
+tmp.groups = {cracky=3, stone=2}
+minetest.register_node("usesdirt:dirt_locked_chest", tmp)
 
 minetest.register_craft({
 	output = 'usesdirt:dirt_locked_chest',
