@@ -320,7 +320,7 @@ minetest.register_craft({
 })
 --
 minetest.register_node("usesdirt:dirt_super_glow", {
-	tiles = {"usesdirt_dirt_super_glow.png"},
+	tiles = {"usesdirt_dirt_normal_glow.png^usesdirt_dirt_super_glow.png"},
 	light_source = 15,
 	description = "Super Glow Dirt",
 	groups = {crumbly=3},
