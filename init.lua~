@@ -111,9 +111,6 @@ end
 ----------------------------------------------------------------------------------------------------
 --Furnace
 local tmp = deepcopy(minetest.registered_nodes["default:furnace"])
-if not tmp then
-	return
-end
 tmp.description = "Dirt "..tmp.description
 tmp.tiles = {"usesdirt_furnace_top.png", "usesdirt_furnace_bottom.png", "usesdirt_furnace_side.png",
 	"usesdirt_furnace_side.png", "usesdirt_furnace_side.png", "usesdirt_furnace_front.png"}
