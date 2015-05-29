@@ -127,16 +127,16 @@ tmp.drop = "usesdirt:dirt_furnace"
 minetest.register_node("usesdirt:dirt_furnace_active", tmp)
 
 function hacky_swap_node(pos,name)
-	local node = minetest.env:get_node(pos)
-	local meta = minetest.env:get_meta(pos)
+	local node = minetest.get_node(pos)
+	local meta = minetest.get_meta(pos)
 	local meta0 = meta:to_table()
 	if node.name == name then
 		return
 	end
 	node.name = name
 	local meta0 = meta:to_table()
-	minetest.env:set_node(pos,node)
-	meta = minetest.env:get_meta(pos)
+	minetest.set_node(pos,node)
+	meta = minetest.get_meta(pos)
 	meta:from_table(meta0)
 end
 
