@@ -2,21 +2,6 @@ minetest.register_alias("usesdirt:dirt_ladder", "usesdirt:dirt_brick_ladder")
 minetest.register_alias("usesdirt:dirt_fence", "usesdirt:dirt_brick_fence")
 
 
-local function deepcopy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in next, orig, nil do
-            copy[deepcopy(orig_key)] = deepcopy(orig_value)
-        end
-        setmetatable(copy, deepcopy(getmetatable(orig)))
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
-end
-
 local dirtnodes = {
 	{"brick", "Brick", {snappy=2,choppy=1,oddly_breakable_by_hand=3}, "default:dirt"},
 	{"cobble_stone", "Cobble Stone", {cracky=3, stone=2}, 'usesdirt:dirt_brick'},
@@ -25,7 +10,7 @@ local dirtnodes = {
 }
 
 
-for _,dirtnode in ipairs(dirtnodes) do
+for _,dirtnode in pairs(dirtnodes) do
 	local name = dirtnode[1]
 	local desc = "Dirt "..dirtnode[2]
 	local groups = dirtnode[3]
@@ -110,7 +95,7 @@ for _,dirtnode in ipairs(dirtnodes) do
 end
 ----------------------------------------------------------------------------------------------------
 --Furnace
-local tmp = deepcopy(minetest.registered_nodes["default:furnace"])
+local tmp = table.copy(minetest.registered_nodes["default:furnace"])
 if not tmp then
 	return
 end
@@ -119,7 +104,7 @@ tmp.tiles = {"usesdirt_furnace_top.png", "usesdirt_furnace_bottom.png", "usesdir
 	"usesdirt_furnace_side.png", "usesdirt_furnace_side.png", "usesdirt_furnace_front.png"}
 minetest.register_node("usesdirt:dirt_furnace", tmp)
 
-local tmp = deepcopy(minetest.registered_nodes["default:furnace_active"])
+local tmp = table.copy(minetest.registered_nodes["default:furnace_active"])
 tmp.description = "Dirt "..tmp.description
 tmp.tiles = {"usesdirt_furnace_top.png", "usesdirt_furnace_bottom.png", "usesdirt_furnace_side.png",
 	"usesdirt_furnace_side.png", "usesdirt_furnace_side.png", "usesdirt_furnace_front_active.png"}
@@ -162,13 +147,13 @@ minetest.register_abm({
 		local srclist = inv:get_list("src")
 		local cooked = nil
 		local aftercooked
-		
+
 		if srclist then
 			cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 		end
-		
+
 		local was_active = false
-		
+
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			was_active = true
 			meta:set_float("fuel_time", meta:get_float("fuel_time") + 1)
@@ -186,7 +171,7 @@ minetest.register_abm({
 				meta:set_string("src_time", 0)
 			end
 		end
-		
+
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
@@ -201,7 +186,7 @@ minetest.register_abm({
 		local cooked = nil
 		local fuellist = inv:get_list("fuel")
 		local srclist = inv:get_list("src")
-		
+
 		if srclist then
 			cooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
 		end
@@ -230,7 +215,7 @@ minetest.register_abm({
 
 		meta:set_string("fuel_totaltime", fuel.time)
 		meta:set_string("fuel_time", 0)
-		
+
 		inv:set_stack("fuel", 1, afterfuel.items[1])
 	end,
 })
@@ -251,8 +236,8 @@ local dirttools_list = {
 	{"pick", "Pickaxe"},
 }
 
-for _,i in ipairs(dirttools_list) do
-	local tmp = deepcopy(minetest.registered_tools["default:"..i[1].."_stone"])
+for _,i in pairs(dirttools_list) do
+	local tmp = table.copy(minetest.registered_tools["default:"..i[1].."_stone"])
 	tmp.description = "Dirt "..i[2]
 	tmp.inventory_image = "usesdirt_dirt_"..i[1]..".png"
 	minetest.register_tool("usesdirt:dirt_"..i[1], tmp)
@@ -296,13 +281,13 @@ minetest.register_craft({
 	}
 })
 --Chest
-local tmp = deepcopy(minetest.registered_nodes["default:chest"])
+local tmp = table.copy(minetest.registered_nodes["default:chest"])
 tmp.description = "Dirt "..tmp.description
 tmp.tiles = {"usesdirt_chest.png"}
 tmp.groups = {cracky=3, stone=2}
 minetest.register_node("usesdirt:dirt_chest", tmp)
 
-local tmp = deepcopy(minetest.registered_nodes["default:chest_locked"])
+local tmp = table.copy(minetest.registered_nodes["default:chest_locked"])
 tmp.description = "Dirt "..tmp.description
 tmp.tiles = {"usesdirt_locked_chest.png"}
 tmp.groups = {cracky=3, stone=2}
